@@ -1,0 +1,54 @@
+<project name="spoke" default="compile" basedir=".">
+    <property name="tests-path" value=""/>
+    <property name="build" location="target"/>
+    <property name="classes" location="target/classes"/>
+    <property name="jardir" location="target/dist"/>
+
+    <!-- Silence an ant warning. -->
+    <property name="build.sysclasspath" value="last"/>
+
+    <!-- Before we do anything, create the directory for compile output -->
+    <target name="init">
+        <mkdir dir="${classes}"/>
+        <mkdir dir="${jardir}"/>
+    </target>
+
+    <!-- compile java source, and place output in the build directory. -->
+    <target name="compile" depends="init">
+        <javac srcdir="src" destdir="${classes}"/>
+    </target>
+
+    <!-- Run unit tests. -->
+    <target name="test" depends="compile">
+        <junit>
+            <classpath>
+                <pathelement path="${build}"/>
+            </classpath>
+
+            <formatter type="plain" usefile="false"/>
+
+            <batchtest>
+                <fileset dir="${build}">
+                    <include name="**/${tests-path}/*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="deploy" depends="compile">
+        <jar destfile="${jardir}/tea-break.jar" basedir="${classes}">
+            <manifest>
+                <attribute name="Main-Class" value="mps.teabreak.gui.TeaBreakWindow"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- delete the build directory contents. -->
+    <target name="clean">
+        <delete dir="${build}" failonerror="false"/>
+        <delete file="cscope.files" failonerror="false"/>
+        <delete file="cscope.out" failonerror="false"/>
+    </target>
+</project>
+
+<!-- vim: set ft=ant ts=4 sw=4 et : -->
