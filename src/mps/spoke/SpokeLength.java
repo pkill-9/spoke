@@ -114,7 +114,7 @@ public class SpokeLength
         double spokes = Double.valueOf (specs.getValueForKey ("spokes.count")).doubleValue ();
         double crossings = Double.valueOf (specs.getValueForKey ("crossings.count")).doubleValue ();
 
-        double alpha = 2 * Math.PI * (crossings / spokes);
+        double alpha = 4 * Math.PI * (crossings / spokes);
         double length = squaredLength (halfHubWidth, flangeRadius, rimRadius, alpha);
 
         return Math.sqrt (length) - holeRadius;
